@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
+import GoogleSheetsManager from "@/components/google-sheets-manager";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -16,24 +17,29 @@ export default function Home() {
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start w-full">
         {session ? (
-          <div className="flex flex-col items-center gap-4">
-            <Image
-              src={session.user?.image || "/default-avatar.png"}
-              alt="User avatar"
-              width={100}
-              height={100}
-              className="rounded-full"
-            />
-            <h1 className="text-2xl font-bold">Bem-vindo, {session.user?.name}!</h1>
-            <p className="text-gray-600">{session.user?.email}</p>
-            <button
-              onClick={() => signOut()}
-              className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
-            >
-              Sair
-            </button>
+          <div className="flex flex-col items-center gap-4 w-full">
+            <div className="flex items-center gap-4 mb-8">
+              <Image
+                src={session.user?.image || "/default-avatar.png"}
+                alt="User avatar"
+                width={100}
+                height={100}
+                className="rounded-full"
+              />
+              <div>
+                <h1 className="text-2xl font-bold">Bem-vindo, {session.user?.name}!</h1>
+                <p className="text-gray-600">{session.user?.email}</p>
+                <button
+                  onClick={() => signOut()}
+                  className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                >
+                  Sair
+                </button>
+              </div>
+            </div>
+            <GoogleSheetsManager />
           </div>
         ) : (
           <>
